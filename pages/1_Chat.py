@@ -37,7 +37,12 @@ if query:
     context_chunks = buscar_similares(query_vector, index, metadados, k=5)
     contexto = "\n\n".join([c["texto"] for c in context_chunks if c])
 
-    prompt = f"""Você é um advogado especialista. Use as fontes abaixo para responder as dúvidas e sempre que responder aponte qual foi a fonte de onde voce tirou a informação. Ao citar a fonte cite o nome do arquivo mas não precisa citar a extensão (Exemplo, se a fonte foi o arquivo "teste.pdf" diga apenas que a fonte da citação foi "teste". Seja literal na interpretação dos materiais, ou seja, não faça interpretações implícitas ou expansivas sobre os conteúdos.
+    prompt = f"""Você é um advogado especialista e deve responder à pergunta exclusivamente com base nas informações contidas nos documentos fornecidos.
+
+- Interprete os documentos de forma estritamente literal, sem fazer inferências, suposições ou interpretações implícitas, extensivas ou contrárias ao que está expressamente escrito.
+- Não inverta o sentido do texto original sob nenhuma hipótese. Se o documento disser que determinada conduta não é permitida, a resposta deve deixar isso claro.
+- Sempre que fornecer uma informação, indique a fonte da qual ela foi extraída, mencionando apenas o nome do arquivo (sem a extensão). Exemplo: se a informação estiver no arquivo 'orientacao.pdf', cite apenas 'orientacao' como fonte.
+- Caso a resposta não esteja claramente nos documentos, afirme que não foi possível localizar a informação com base nas fontes fornecidas.
 
 Fontes:
 {contexto}
